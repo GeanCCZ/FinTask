@@ -1,23 +1,25 @@
+const fetchFields= async()=>{
+    const response = await fetch('../../data/navigation-options.json').then(response => response.json())
+    .then(data => {
+      return data // Aqui você pode usar os dados JSON
+    })
+    return response
+}
 
-const fields = fetch('navigation-options.json')
-.then(response => response.json())
-.then(data => {
-    console.log(`a`)
-    console.log(data)
-  return data // Aqui você pode usar os dados JSON
-})
-
-function renderFields(){
-
+async function renderFields(){
+    fields = await fetchFields()
     let navOptions = document.getElementsByClassName('navigation-options')
     let div = document.createElement("div")
-    for (let i=0; i<fields.length;i++){
-        let item =document.createTextNode(fields[i])
-        div.appendChild=item
 
-    }
-    console.log(div)
+    fields.forEach(field => {
+        let itemDiv = document.createElement("div");
+        itemDiv.textContent = field.name;
+        div.appendChild(itemDiv);
+    });
+
+    Array.from(navOptions).forEach(navOption=>{
+        navOption.appendChild(div.cloneNode(true))
+    })
+
 }
 renderFields()
-
-module.export
